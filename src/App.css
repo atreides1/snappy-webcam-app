@@ -21,8 +21,21 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  
-  
+}
+
+.menuButton {
+  padding: 80px;
+  font-size: 16px;
+  margin: 20px;
+  margin-right: 0px;
+  border: 2px solid rgba(0,0,20, 0.4);
+  cursor: pointer;
+  background-color: #f6fbff;
+}
+
+.menuButton:hover {
+    border-color: black;
+    transition: border-color .2s ease-out;
 }
 
 #camera {
@@ -72,4 +85,19 @@
   padding: 10px 0px 10px 0px;
   width: 960px;
   height: 540px;
+}
+
+button {
+    padding: 5px;
+    font-size: 14px;
+    margin: 10px;
+    margin-right: 0px;
+    border-width:2px;
+    border-style: solid;
+    cursor: pointer;
+}
+
+button:hover {
+    border-color: rgba(0,0,20, 0.4);
+    transition: border-color .2s ease-out;
 }

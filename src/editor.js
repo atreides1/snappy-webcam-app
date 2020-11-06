@@ -115,7 +115,7 @@ class Editor extends Component {
     render() {
         return (
         <div id="editor">
-            <p>Edit ur photo here!</p>
+            <h3>Edit ur photo here!</h3>
             <canvas id="editableCanvas"></canvas>
             <img id="display" alt="your webcam output is here" onLoad={this.displayImg}></img>
             <br />

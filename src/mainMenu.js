@@ -6,9 +6,9 @@ class MainMenu extends Component {
   render() {
     return (
       <div id="mainMenu">
-        <Link to="/camera"> <button>Take Photo</button></Link> 
+        <Link to="/camera"> <button class="menuButton">Take Photo</button></Link> 
         <br />
-        <Link to="/gallery"><button>Photo Gallery</button></Link>
+        <Link to="/gallery"><button class="menuButton">Photo Gallery</button></Link>
       </div>
     );
   }
