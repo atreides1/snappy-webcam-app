@@ -34,7 +34,7 @@ class Gallery extends Component {
                     //set source
                     image.src = dataURL;
                     image.alt = "Output from webcam.";
-                    document.getElementById("gallery").appendChild(image);
+                    document.getElementById("photos").appendChild(image);
                 }
 
             });
@@ -56,9 +56,10 @@ class Gallery extends Component {
     render() {
         return (
             <div id="gallery">
-                <h2>Image gallery</h2>
+                <h3>Image gallery</h3>
+                <div id="photos"></div>
                 <button onClick={this.clearAll}>Clear Gallery (Delete All)</button>
-                <Link to="camera">Take Picture</Link>
+                <Link to="camera">Take Photo</Link>
             </div>
         );
     }

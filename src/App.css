@@ -12,7 +12,7 @@
 }
 
 #mainMenu {
-  background-color:#FC8D35;
+  background-color: #FC4135;
   height: 100%;
   width: 100%;
   min-height: 100vh;
@@ -25,12 +25,13 @@
 
 .menuButton {
   padding: 80px;
-  font-size: 16px;
+  font-size: 22px;
   margin: 20px;
   margin-right: 0px;
   border: 2px solid rgba(0,0,20, 0.4);
   cursor: pointer;
   background-color: #f6fbff;
+  justify-content: space-between;
 }
 
 .menuButton:hover {
@@ -50,6 +51,10 @@
   justify-content: space-evenly;
 }
 
+#canvas #video {
+  border: 3px solid black;
+}
+
 #savePhoto {
   visibility: hidden;
 }
@@ -60,6 +65,12 @@
   width: 100%;
   min-height: 100vh;
   min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#photos {
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
@@ -75,6 +86,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+}
+
+#options {
+  flex-direction: row;
 }
 
 #display {
@@ -94,10 +109,26 @@ button {
     margin-right: 0px;
     border-width:2px;
     border-style: solid;
+    font-family: 'Open Sans', sans-serif;
     cursor: pointer;
 }
 
 button:hover {
     border-color: rgba(0,0,20, 0.4);
     transition: border-color .2s ease-out;
+}
+
+
+h1 {
+  font-family: 'Lobster Two', cursive;
+  font-size: 10vw;
+}
+
+h3 {
+  font-family: "Lobster Two", cursive;
+  font-size: 2rem;
+}
+
+a, p {
+  font-family: 'Open Sans', sans-serif;
 }

@@ -7,7 +7,8 @@ class App extends Component {
     return (
         <div id="home">
           <h1>Snappy</h1>
-          <p>The place for easy-peasy webcam pics and filters. (Right in your browser!)</p>
+          <p>The place for easy-peasy webcam pics and filters.</p>
+          <p>(Right in your browser!)</p>
           <Link to="/menu"> Click to continue</Link> 
         </div>
     );

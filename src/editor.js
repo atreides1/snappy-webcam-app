@@ -115,14 +115,16 @@ class Editor extends Component {
     render() {
         return (
         <div id="editor">
-            <h3>Edit ur photo here!</h3>
+            <h3>Edit your photo here!</h3>
             <canvas id="editableCanvas"></canvas>
             <img id="display" alt="your webcam output is here" onLoad={this.displayImg}></img>
             <br />
-            <button id="reset" onClick={this.resetImage}>Reset Image</button>
-            <button id="greyscale" onClick={this.applyGreyscale}>Greyscale 1</button>
-            <button id="greyscale2" onClick={this.applyGreyscale2}>Greyscale 2</button>
-            <button id="editedSave" onClick={this.editedSave}>Save</button>
+            <div id="options">
+                <button id="reset" onClick={this.resetImage}>Reset Image</button>
+                <button id="greyscale" onClick={this.applyGreyscale}>Greyscale 1</button>
+                <button id="greyscale2" onClick={this.applyGreyscale2}>Greyscale 2</button>
+                <button id="editedSave" onClick={this.editedSave}>Save</button>
+            </div>
             <Link to="gallery">Go to Gallery</Link>
 
         </div>

@@ -93,9 +93,9 @@ class Camera extends Component {
             <div id="camera">
                 <h3>Take your image here!</h3>
                 <video autoPlay={true} id="video"></video>
+                
                 <button id="captureButton" onClick={this.takePhoto}>Take Photo</button>
                 <button id="retakeButton" onClick={this.reload} style={hiddenSyle}>Retry</button>
-                {/* <button id="acceptButton" onClick={this.save} style={hiddenSyle}>✔️</button> */}
                 <div id="savePhoto"><Link to="editor" onClick={this.save}>✔️ Save and Edit </Link></div>
                 <canvas id="canvas"></canvas>
             </div>
