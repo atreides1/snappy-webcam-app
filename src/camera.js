@@ -7,7 +7,6 @@ class Camera extends Component {
         this.state = {
             width: 960,
             height: 540,
-            key: 1 //used for localStorage key
         };
         this.loadStream = this.loadStream.bind(this);
         this.takePhoto = this.takePhoto.bind(this);
@@ -62,11 +61,11 @@ class Camera extends Component {
         this.loadStream();
         let btn = document.getElementById("captureButton");
         let btn1 = document.getElementById("retakeButton")
-        // let btn2 = document.getElementById("acceptButton")
+        let btn2 = document.getElementById("savePhoto")
 
         btn.style.display = "block";
         btn1.style.display = "none";
-        // btn2.style.display = "none";
+        btn2.style.visibility = "hidden";
     }
 
     save() {
@@ -79,14 +78,7 @@ class Camera extends Component {
         localStorage.setItem("photo", image);
         video.srcObject = null; //this removes video stream
         //alert user save was successful
-        alert("Photo was saved successfully!",
-        
-        // <div style={textColor}> 
-        //     <Link to="editor"> Edit Photo! </Link>
-        //     <Link to="gallery"> View Images!</Link>
-        // </div>
-        
-        )
+        alert("Photo was saved successfully!");
 
     }
 

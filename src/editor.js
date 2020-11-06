@@ -7,7 +7,7 @@ class Editor extends Component {
         this.state = {
             width: 960,
             height: 540,
-            original: null
+            keyNum: 1
         };
         this.loadPhoto = this.loadPhoto.bind(this);
         this.displayImg = this.displayImg.bind(this);
@@ -54,6 +54,7 @@ class Editor extends Component {
     }
 
     applyGreyscale() {
+        this.displayImg()
         let canvas = document.getElementById("editableCanvas");
         let context = canvas.getContext('2d');
         let imageData = this.getImageData();
@@ -71,6 +72,7 @@ class Editor extends Component {
     }
 
     applyGreyscale2() {
+        this.displayImg()
         let canvas = document.getElementById("editableCanvas");
         let context = canvas.getContext('2d');
         let imageData = this.getImageData();
@@ -100,7 +102,14 @@ class Editor extends Component {
         let image = canvas.toDataURL();
         console.log({ image });
         console.log("saved!");
-        localStorage.setItem("photo1", image);
+        let key = this.state.keyNum.toString();
+        localStorage.setItem(key, image);
+        //increment our key
+        this.setState((prevState) => ({
+            keyNum: prevState.keyNum + 1
+        }));
+        //let user know
+        alert("Photo saved successfully!")
     }
 
     render() {
