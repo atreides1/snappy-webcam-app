@@ -5,8 +5,8 @@ class Editor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            width: 1280,
-            height: 720,
+            width: 960,
+            height: 540,
             original: null
         };
         this.loadPhoto = this.loadPhoto.bind(this);

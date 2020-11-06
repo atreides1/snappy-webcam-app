@@ -5,8 +5,8 @@ class Gallery extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            width: 1280,
-            height: 720,
+            width: 960,
+            height: 540,
         };
         this.loadPhotos = this.loadPhotos.bind(this);
         this.clearAll = this.clearAll.bind(this);

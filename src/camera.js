@@ -5,8 +5,9 @@ class Camera extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            width: 1280,
-            height: 720
+            width: 960,
+            height: 540,
+            key: 1 //used for localStorage key
         };
         this.loadStream = this.loadStream.bind(this);
         this.takePhoto = this.takePhoto.bind(this);
