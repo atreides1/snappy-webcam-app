@@ -46,10 +46,10 @@ class Camera extends Component {
 
         let btn = document.getElementById("captureButton");
         let btn1 = document.getElementById("retakeButton");
-        let btn2 = document.getElementById("acceptButton");
+        let btn2 = document.getElementById("savePhoto");
         btn.style.display = "none";
         btn1.style.display = "block";
-        btn2.style.display = "block";
+        btn2.style.visibility = "visible";
         
     }
 
@@ -62,11 +62,11 @@ class Camera extends Component {
         this.loadStream();
         let btn = document.getElementById("captureButton");
         let btn1 = document.getElementById("retakeButton")
-        let btn2 = document.getElementById("acceptButton")
+        // let btn2 = document.getElementById("acceptButton")
 
         btn.style.display = "block";
         btn1.style.display = "none";
-        btn2.style.display = "none";
+        // btn2.style.display = "none";
     }
 
     save() {
@@ -78,6 +78,15 @@ class Camera extends Component {
         console.log("saved!");
         localStorage.setItem("photo", image);
         video.srcObject = null; //this removes video stream
+        //alert user save was successful
+        alert("Photo was saved successfully!",
+        
+        // <div style={textColor}> 
+        //     <Link to="editor"> Edit Photo! </Link>
+        //     <Link to="gallery"> View Images!</Link>
+        // </div>
+        
+        )
 
     }
 
@@ -94,10 +103,8 @@ class Camera extends Component {
                 <video autoPlay={true} id="video"></video>
                 <button id="captureButton" onClick={this.takePhoto}>Take Photo</button>
                 <button id="retakeButton" onClick={this.reload} style={hiddenSyle}>Retry</button>
-                <button id="acceptButton" onClick={this.save} style={hiddenSyle}>✔️</button>
-                <Link to="editor">Next!</Link>
-
-
+                {/* <button id="acceptButton" onClick={this.save} style={hiddenSyle}>✔️</button> */}
+                <div id="savePhoto"><Link to="editor" onClick={this.save}>✔️ Save and Edit </Link></div>
                 <canvas id="canvas"></canvas>
             </div>
         );

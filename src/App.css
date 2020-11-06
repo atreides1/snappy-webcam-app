@@ -37,6 +37,10 @@
   justify-content: space-evenly;
 }
 
+#savePhoto {
+  visibility: hidden;
+}
+
 #gallery {
   background-color: #E6663B;
   height: 100%;
