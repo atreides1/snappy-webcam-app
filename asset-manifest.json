@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/snappy-webcam-app/static/css/main.cea47b9a.chunk.css",
-    "main.js": "/snappy-webcam-app/static/js/main.5c050a0a.chunk.js",
-    "main.js.map": "/snappy-webcam-app/static/js/main.5c050a0a.chunk.js.map",
+    "main.js": "/snappy-webcam-app/static/js/main.0da58733.chunk.js",
+    "main.js.map": "/snappy-webcam-app/static/js/main.0da58733.chunk.js.map",
     "runtime-main.js": "/snappy-webcam-app/static/js/runtime-main.6a142c8b.js",
     "runtime-main.js.map": "/snappy-webcam-app/static/js/runtime-main.6a142c8b.js.map",
     "static/js/2.4de5732f.chunk.js": "/snappy-webcam-app/static/js/2.4de5732f.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.6a142c8b.js",
     "static/js/2.4de5732f.chunk.js",
     "static/css/main.cea47b9a.chunk.css",
-    "static/js/main.5c050a0a.chunk.js"
+    "static/js/main.0da58733.chunk.js"
   ]
 }
