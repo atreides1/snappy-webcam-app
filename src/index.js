@@ -14,7 +14,7 @@ import NotFound from './404';
 
 const routing = (
   <React.StrictMode>
-  <Router>
+  <Router basename={process.env.PUBLIC_URL}>
     {/*Switch for error handling */}
     <Switch>
       <Route exact path="/" component={App}            />
