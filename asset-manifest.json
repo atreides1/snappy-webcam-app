@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/snappy-webcam-app/static/css/main.cea47b9a.chunk.css",
+    "main.js": "/snappy-webcam-app/static/js/main.5c050a0a.chunk.js",
+    "main.js.map": "/snappy-webcam-app/static/js/main.5c050a0a.chunk.js.map",
+    "runtime-main.js": "/snappy-webcam-app/static/js/runtime-main.6a142c8b.js",
+    "runtime-main.js.map": "/snappy-webcam-app/static/js/runtime-main.6a142c8b.js.map",
+    "static/js/2.4de5732f.chunk.js": "/snappy-webcam-app/static/js/2.4de5732f.chunk.js",
+    "static/js/2.4de5732f.chunk.js.map": "/snappy-webcam-app/static/js/2.4de5732f.chunk.js.map",
+    "static/js/3.1cbe77f1.chunk.js": "/snappy-webcam-app/static/js/3.1cbe77f1.chunk.js",
+    "static/js/3.1cbe77f1.chunk.js.map": "/snappy-webcam-app/static/js/3.1cbe77f1.chunk.js.map",
+    "index.html": "/snappy-webcam-app/index.html",
+    "static/css/main.cea47b9a.chunk.css.map": "/snappy-webcam-app/static/css/main.cea47b9a.chunk.css.map",
+    "static/js/2.4de5732f.chunk.js.LICENSE.txt": "/snappy-webcam-app/static/js/2.4de5732f.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6a142c8b.js",
+    "static/js/2.4de5732f.chunk.js",
+    "static/css/main.cea47b9a.chunk.css",
+    "static/js/main.5c050a0a.chunk.js"
+  ]
+}
