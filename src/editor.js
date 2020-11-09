@@ -14,6 +14,7 @@ class Editor extends Component {
         this.getImageData = this.getImageData.bind(this);
         this.applyGreyscale = this.applyGreyscale.bind(this);
         this.applyGreyscale2 = this.applyGreyscale2.bind(this);
+        this.applySepia = this.applySepia.bind(this);
         this.resetImage = this.resetImage.bind(this);
         this.editedSave = this.editedSave.bind(this);
     }
@@ -92,6 +93,32 @@ class Editor extends Component {
         console.log("Applied greyscale 2");
     }
 
+    applySepia() {
+        this.displayImg()
+        let canvas = document.getElementById("editableCanvas");
+        let context = canvas.getContext('2d');
+        let imageData = this.getImageData();
+        let pixels = imageData.data;
+
+        for (let i = 0; i < pixels.length; i += 4) {
+
+            let r = pixels[i],
+                g = pixels[i + 1],
+                b = pixels[i + 2];
+
+                //using Microsoft's recommended values for Sepia
+            let newRed = 0.393 * r + 0.769 * g + 0.189 * b;
+            let newGreen = 0.349 * r + 0.686 * g + 0.168 * b;
+            let newBlue = 0.272 * r + 0.534 * g + 0.131 * b;
+            pixels[i]     =  newRed < 255 ? newRed : 255;
+            pixels[i + 1] = newGreen < 255 ? newGreen : 255;
+            pixels[i + 2] = newBlue < 255 ? newBlue : 255;
+        }
+        context.putImageData(imageData, 0, 0);
+
+        console.log("Applied sepia");
+    }
+
     resetImage() {
         this.loadPhoto();
     }
@@ -123,6 +150,7 @@ class Editor extends Component {
                 <button id="reset" onClick={this.resetImage}>Reset Image</button>
                 <button id="greyscale" onClick={this.applyGreyscale}>Greyscale 1</button>
                 <button id="greyscale2" onClick={this.applyGreyscale2}>Greyscale 2</button>
+                <button id="sepia" onClick={this.applySepia}>Sepia</button>
                 <button id="editedSave" onClick={this.editedSave}>Save</button>
             </div>
             <Link to="gallery">Go to Gallery</Link>
