@@ -1,15 +1,30 @@
 import { React, Component } from 'react';
 import './App.css';
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import { Button } from 'react-bootstrap';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      redirect: null,
+    }
+  }
   render() {
+    if (this.state.redirect) {
+      let location = {
+        pathname: this.state.redirect,
+      }
+      return (
+        <Redirect to={location} />
+      )
+    }
     return (
-        <div id="home">
+        <div id="home" className="text-white">
           <h1>Snappy</h1>
-          <p>The place for easy-peasy webcam pics and filters.</p>
+        <p>The place for easy-peasy 👍 webcam pics and filters. 📸 </p>
           <p>(Right in your browser!)</p>
-          <Link to="/menu"> Click to continue</Link> 
+          <Button variant="outline-light" onClick={() => {this.setState({ redirect: '/camera' })}}>Continue</Button> 
         </div>
     );
   }

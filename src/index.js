@@ -9,6 +9,7 @@ import Camera from './camera';
 import Gallery from './gallery';
 import Editor from './editor';
 import NotFound from './404';
+import 'bootstrap/dist/css/bootstrap.css'; // npm i react-bootstrap bootstrap
 
 
 

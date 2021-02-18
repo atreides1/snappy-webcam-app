@@ -1,13 +1,14 @@
+// blox shadow on image, download button, more filters
 import { React, Component } from 'react';
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import { Button } from 'react-bootstrap';
 
 class Editor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            width: 960,
-            height: 540,
-            keyNum: 1
+            width: window.innerWidth,
+            height: window.innerHeight,
         };
         this.loadPhoto = this.loadPhoto.bind(this);
         this.displayImg = this.displayImg.bind(this);
@@ -32,7 +33,11 @@ class Editor extends Component {
             let dataURL = localStorage.getItem("photo");
             let image = document.getElementById("display");
             image.src = dataURL;
+            image.onload = () => {
+                image.style.objectFit = "contain";
+            }
         }
+
     }
 
     displayImg() {
@@ -55,19 +60,21 @@ class Editor extends Component {
     }
 
     applyGreyscale() {
-        this.displayImg()
-        let canvas = document.getElementById("editableCanvas");
-        let context = canvas.getContext('2d');
-        let imageData = this.getImageData();
-        let pixels = imageData.data;
+        // this.displayImg()
+        // let canvas = document.getElementById("editableCanvas");
+        // let context = canvas.getContext('2d');
+        // let imageData = this.getImageData();
+        // let pixels = imageData.data;
 
-        for (let i = 0; i<pixels.length; i+=4) {
-            let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
-            pixels[i] = lightness;
-            pixels[i+1] = lightness;
-            pixels[i+2] = lightness;
-        }
-        context.putImageData(imageData, 0, 0);
+        // for (let i = 0; i<pixels.length; i+=4) {
+        //     let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
+        //     pixels[i] = lightness;
+        //     pixels[i+1] = lightness;
+        //     pixels[i+2] = lightness;
+        // }
+        // context.putImageData(imageData, 0, 0);
+        let image = document.getElementById("display");
+        image.style.filter = "grayscale(100%)";
 
         console.log("Applied greyscale");
     }
@@ -94,33 +101,65 @@ class Editor extends Component {
     }
 
     applySepia() {
-        this.displayImg()
-        let canvas = document.getElementById("editableCanvas");
-        let context = canvas.getContext('2d');
-        let imageData = this.getImageData();
-        let pixels = imageData.data;
+        // this.displayImg()
+        // let canvas = document.getElementById("editableCanvas");
+        // let context = canvas.getContext('2d');
+        // let imageData = this.getImageData();
+        // let pixels = imageData.data;
 
-        for (let i = 0; i < pixels.length; i += 4) {
+        // for (let i = 0; i < pixels.length; i += 4) {
 
-            let r = pixels[i],
-                g = pixels[i + 1],
-                b = pixels[i + 2];
+        //     let r = pixels[i],
+        //         g = pixels[i + 1],
+        //         b = pixels[i + 2];
 
-                //using Microsoft's recommended values for Sepia
-            let newRed = 0.393 * r + 0.769 * g + 0.189 * b;
-            let newGreen = 0.349 * r + 0.686 * g + 0.168 * b;
-            let newBlue = 0.272 * r + 0.534 * g + 0.131 * b;
-            pixels[i]     =  newRed < 255 ? newRed : 255;
-            pixels[i + 1] = newGreen < 255 ? newGreen : 255;
-            pixels[i + 2] = newBlue < 255 ? newBlue : 255;
-        }
-        context.putImageData(imageData, 0, 0);
+        //         //using Microsoft's recommended values for Sepia
+        //     let newRed = 0.393 * r + 0.769 * g + 0.189 * b;
+        //     let newGreen = 0.349 * r + 0.686 * g + 0.168 * b;
+        //     let newBlue = 0.272 * r + 0.534 * g + 0.131 * b;
+        //     pixels[i]     =  newRed < 255 ? newRed : 255;
+        //     pixels[i + 1] = newGreen < 255 ? newGreen : 255;
+        //     pixels[i + 2] = newBlue < 255 ? newBlue : 255;
+        // }
+        // context.putImageData(imageData, 0, 0);
+        let image = document.getElementById("display");
+        image.style.filter = "sepia(100%)";
 
         console.log("Applied sepia");
     }
 
+    applyBlur = () => {
+        let image = document.getElementById("display");
+        image.style.filter = "blur(6px)";
+
+        console.log("Applied blur");
+    }
+
+    // applyFilter = (filter) => {
+    //     let image = document.getElementById("display");
+    //     if (image) {
+    //         switch (filter) {
+    //             case "grayscale":
+    //                 image.style.filter = "grayscale(100%)";
+    //                 break;
+    //             case "sepia":
+    //                 image.style.filter = "sepia(100%)";
+    //                 break;
+    //             case "blur":
+    //                 image.style.filter = "blur(6px)";
+    //                 break;
+    //             case "none":
+    //                 image.style.filter = "none";
+    //                 break;
+    //             default:
+    //                 image.style.filter = "none"
+    //         }
+    //     }
+    // }
+
     resetImage() {
-        this.loadPhoto();
+        let image = document.getElementById("display");
+        image.style.filter = "none";
     }
 
     editedSave() {
@@ -140,20 +179,30 @@ class Editor extends Component {
     }
 
     render() {
+        if (this.state.redirect) {
+            let location = {
+                pathname: this.state.redirect,
+            }
+            return <Redirect to={location} />
+        }
+
         return (
-        <div id="editor">
+        <div id="editor" className="text-white">
             <h3>Edit your photo here!</h3>
-            <canvas id="editableCanvas"></canvas>
-            <img id="display" alt="your webcam output is here" onLoad={this.displayImg}></img>
+            {/* <canvas id="editableCanvas"></canvas> */}
+            <img id="display" alt="your webcam output is here"></img>
             <br />
             <div id="options">
-                <button id="reset" onClick={this.resetImage}>Reset Image</button>
-                <button id="greyscale" onClick={this.applyGreyscale}>Greyscale 1</button>
-                <button id="greyscale2" onClick={this.applyGreyscale2}>Greyscale 2</button>
-                <button id="sepia" onClick={this.applySepia}>Sepia</button>
-                <button id="editedSave" onClick={this.editedSave}>Save</button>
+                <Button variant="outline-light" id="reset" onClick={this.resetImage}>Reset Image</Button>
+                <Button variant="outline-light" id="greyscale" onClick={this.applyGreyscale}>Greyscale</Button>
+                {/* <Button variant="outline-light" id="greyscale2" onClick={this.applyGreyscale2}>Greyscale 2</Button> */}
+                <Button variant="outline-light" id="sepia" onClick={this.applySepia}>Sepia</Button>
+                <Button variant="outline-light" onClick={this.applyBlur}>Blur</Button>
+                {/* instead have a download as */}
+                {/* <Button variant="outline-light" id="editedSave" onClick={this.editedSave}>Save</Button> */}
             </div>
-            <Link to="gallery">Go to Gallery</Link>
+            {/* <Button variant="dark" size="sm" onClick={() => { this.setState({ redirect: "/gallery" })}}>Gallery</Button> */}
+            <Button variant="dark" size="sm" onClick={() => { }}>Download Image</Button>
 
         </div>
         );
