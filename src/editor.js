@@ -89,6 +89,57 @@ class Editor extends Component {
         };
     }
 
+    
+    // https://www.html5rocks.com/en/tutorials/canvas/imagefilters/
+    convoluteImage = (imageData, weights, opaque=1) => {
+        const createTempImageData = (w, h) => {
+          let tempCanvas = document.createElement("canvas");
+          let tempContext = tempCanvas.getContext("2d");
+          return tempContext.createImageData(w, h);
+        };
+        let side = Math.round(Math.sqrt(weights.length));
+        let halfSide = Math.floor(side/2);
+        let src = imageData.data;
+        let sw = imageData.width;
+        let sh = imageData.height;
+        
+        let w = sw;
+        let h = sh;
+        let output = createTempImageData(w, h);
+        let dst = output.data;
+
+        let alpha = opaque ? 1 : 0;
+        // go through each pixel
+        for (let y=0; y<h; y++) {
+            for (let x=0; x<w; x++) {
+                let sy = y;
+                let sx = x;
+                let dstOff = (y*w+x) * 4;
+                //calc weighted sum
+                let r=0, g=0,b=0, a=0;
+                for (let cy=0; cy<side; cy++) {
+                    for (let cx=0; cx<side; cx++) {
+                        let scy = sy + cy - halfSide;
+                        let scx = sx + cx - halfSide;
+                        if (scy >= 0 && scy < sh && scx >= 0 && scx < sw) {
+                            let srcOff = (scy*sw*scx)*4;
+                            let wt = weights[cy*side+cx];
+                            r += src[srcOff] * wt;
+                            g += src[srcOff+1] * wt;
+                            b += src[srcOff+2] * wt;
+                            a += src[srcOff+3] * wt;
+                        }
+                    }
+                }
+                dst[dstOff] = r;
+                dst[dstOff +1] = g;
+                dst[dstOff+2] = b;
+                dst[dstOff+3] = a + alpha *(255-a)
+            }
+        }
+        return output;
+    }
+
     applyGreyscale = () => {
         // this.loadImage()
         let canvas = document.getElementById("editableCanvas");
@@ -179,7 +230,13 @@ class Editor extends Component {
         let canvas = document.getElementById("editableCanvas");
         let context = canvas.getContext('2d');
         let imageData = this.getImageData();
-        context.filter = "blur(6px)"
+        let newImageData = this.convoluteImage(imageData,
+          [ 1/9, 1/9, 1/9,
+            1/9, 1/9, 1/9,
+            1/9, 1/9, 1/9 ] 
+        );
+        console.log(newImageData)
+        context.putImageData(newImageData, 0, 0);
         // let pixels = imageData.data;
 
         // for (let i = 0; i < pixels.length; i += 4) {
