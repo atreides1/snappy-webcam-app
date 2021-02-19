@@ -21,7 +21,7 @@ class App extends Component {
     }
     return (
         <div id="home" className="text-white">
-          <h1>Snappy</h1>
+          <h1 style={{fontSize: "5.5rem"}}>Snappy</h1>
         <p>The place for easy-peasy 👍 webcam pics and filters. 📸 </p>
           <p>(Right in your browser!)</p>
           <Button variant="outline-light" onClick={() => {this.setState({ redirect: '/camera' })}}>Continue</Button> 

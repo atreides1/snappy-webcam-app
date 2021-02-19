@@ -48,7 +48,7 @@ class Camera extends Component {
 
     componentWillUnmount() {
         this.stopStream();
-        window.addEventListener("resize", this.resize);
+        window.removeEventListener("resize", this.resize);
     }
 
     resize = () => {
