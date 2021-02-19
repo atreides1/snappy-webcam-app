@@ -1,4 +1,4 @@
-// blox shadow on image, download button, more filters
+// more filters
 import { React, Component } from 'react';
 import { Redirect } from "react-router-dom";
 import { Button } from 'react-bootstrap';
@@ -14,10 +14,44 @@ class Editor extends Component {
 
     componentDidMount() {
         this.loadImage();
+        window.addEventListener("resize", this.resize);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.resize);
+    }
+
+    resize = () => {
+        console.log("resizing")
+        if (document.getElementById("editableCanvas")) {
+            // resize canvas
+            let canvas = document.getElementById("editableCanvas");
+            let context = canvas.getContext("2d");
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            // resize content
+            let image = this.image;
+            console.log(image)
+            if (image) {
+                console.log("adding image again");
+                let aspectRatio = image.width / image.height;
+                let newWidth = canvas.width;
+                let newHeight = newWidth / aspectRatio;
+                if (newHeight > canvas.height) {
+                    newHeight = canvas.height;
+                    newWidth = newHeight * aspectRatio;
+                }
+                console.log("resizing image")
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                context.drawImage(image, canvas.width / 2 - newWidth / 2, 0, newWidth, newHeight);
+            } 
+        }
     }
 
     loadImage = () => {
-        // loads the 
+        // loads the image data onto canvas
         console.log("loading")
 
         if (localStorage.length > 0) //is greater than 0
@@ -26,42 +60,33 @@ class Editor extends Component {
             let dataURL = localStorage.getItem("photo");
             let canvas = document.getElementById("editableCanvas");
             let context = canvas.getContext("2d");
-            // let image = document.getElementById("display");
-            // image.src = dataURL;
-            // image.onload = () => {
-            //     image.style.objectFit = "contain";
-            // }
             let image = document.createElement("img");
             image.src = dataURL;
-            // console.log(dataURL);
             image.onload = () => {
                 console.log("putting image on canvas")
-                // console.log(image.width, image.height)
-                canvas.width = image.width;
-                canvas.height = image.height;
-                context.drawImage(image, 0, 0, image.width, image.height);
-                // console.log(context)
+                canvas.width = image.width / 2;
+                canvas.height = image.height / 2;
+                context.drawImage(image, 0, 0, image.width /2, image.height/2);
+                this.image = image;
+                // canvas.style.objectFit = "contain";
             }
         }
     }
-
-    // displayImg() {
-    //     let image = document.getElementById("display");
-    //     let width = this.state.width;
-    //     let height = this.state.height;
-    //     let canvas = document.getElementById("editableCanvas");
-    //     let context = canvas.getContext('2d');
-    //     canvas.width = width;
-    //     canvas.height = height;
-    //     context.drawImage(image, 0, 0, width, height);
-
-    // }
 
     getImageData = () => {
         let canvas = document.getElementById("editableCanvas");
         let context = canvas.getContext('2d');
         let imageData = context.getImageData(0,0, canvas.width, canvas.height);
         return imageData;
+    }
+
+    saveCurrentImageState = () => {
+        let canvas = document.getElementById("editableCanvas");
+        let img = document.createElement("img");
+        img.src = canvas.toDataURL("image/jpeg", 0.95);
+        img.onload = () => {
+          this.image = img;
+        };
     }
 
     applyGreyscale = () => {
@@ -87,6 +112,12 @@ class Editor extends Component {
             pixels[i] = pixels[i + 1] = pixels[i + 2] = lightness;
         }
         context.putImageData(imageData, 0, 0);
+        this.saveCurrentImageState();
+        // let img = document.createElement("img");
+        // img.src = canvas.toDataURL("image/jpeg", 0.95);
+        // img.onload = () => {
+        //     this.image = img;
+        // }
         // let image = document.getElementById("display");
         // image.style.filter = "grayscale(100%)";
 
@@ -136,6 +167,7 @@ class Editor extends Component {
             pixels[i + 2] = newBlue < 255 ? newBlue : 255;
         }
         context.putImageData(imageData, 0, 0);
+        this.saveCurrentImageState();
         // let image = document.getElementById("display");
         // image.style.filter = "sepia(100%)";
 
@@ -147,23 +179,24 @@ class Editor extends Component {
         let canvas = document.getElementById("editableCanvas");
         let context = canvas.getContext('2d');
         let imageData = this.getImageData();
-        let pixels = imageData.data;
+        context.filter = "blur(6px)"
+        // let pixels = imageData.data;
 
-        for (let i = 0; i < pixels.length; i += 4) {
+        // for (let i = 0; i < pixels.length; i += 4) {
 
-            let r = pixels[i],
-                g = pixels[i + 1],
-                b = pixels[i + 2];
+        //     let r = pixels[i],
+        //         g = pixels[i + 1],
+        //         b = pixels[i + 2];
 
-            //using Microsoft's recommended values for Sepia
-            let newRed = 0.393 * r + 0.769 * g + 0.189 * b;
-            let newGreen = 0.349 * r + 0.686 * g + 0.168 * b;
-            let newBlue = 0.272 * r + 0.534 * g + 0.131 * b;
-            pixels[i] = newRed < 255 ? newRed : 255;
-            pixels[i + 1] = newGreen < 255 ? newGreen : 255;
-            pixels[i + 2] = newBlue < 255 ? newBlue : 255;
-        }
-        context.putImageData(imageData, 0, 0);
+        //     //using Microsoft's recommended values for Sepia
+        //     let newRed = 0.393 * r + 0.769 * g + 0.189 * b;
+        //     let newGreen = 0.349 * r + 0.686 * g + 0.168 * b;
+        //     let newBlue = 0.272 * r + 0.534 * g + 0.131 * b;
+        //     pixels[i] = newRed < 255 ? newRed : 255;
+        //     pixels[i + 1] = newGreen < 255 ? newGreen : 255;
+        //     pixels[i + 2] = newBlue < 255 ? newBlue : 255;
+        // }
+        // context.putImageData(imageData, 0, 0);
         // let image = document.getElementById("display");
         // image.style.filter = "blur(6px)";
 
