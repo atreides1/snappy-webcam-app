@@ -1,9 +1,7 @@
-// more filters
 import { React, Component } from 'react';
 import { Redirect } from "react-router-dom";
 import { Button } from 'react-bootstrap';
 import download from "downloadjs";
-import context from 'react-bootstrap/esm/AccordionContext';
 class Editor extends Component {
     constructor(props) {
         super(props);
@@ -30,10 +28,10 @@ class Editor extends Component {
             let context = canvas.getContext("2d");
 
             canvas.width = window.innerWidth - (window.innerWidth * 0.10);
-            canvas.height = window.innerHeight;
+            canvas.height = window.innerHeight - (window.innerHeight * 0.25);
             // resize content
             let image = this.image;
-            console.log(image)
+
             if (image) {
                 console.log("adding image again");
                 let aspectRatio = image.width / image.height;
@@ -43,7 +41,7 @@ class Editor extends Component {
                     newHeight = canvas.height;
                     newWidth = newHeight * aspectRatio;
                 }
-                console.log("resizing image")
+
                 canvas.width = newWidth;
                 canvas.height = newHeight;
                 context.drawImage(image, canvas.width / 2 - newWidth / 2, 0, newWidth, newHeight);
@@ -55,7 +53,7 @@ class Editor extends Component {
         // loads the image data onto canvas
         console.log("loading")
 
-        if (localStorage.length > 0) //is greater than 0
+        if (localStorage.length > 0) 
         {
             console.log("finding previously taken images");
             let dataURL = localStorage.getItem("photo");
@@ -66,11 +64,6 @@ class Editor extends Component {
             image.onload = () => {
                 this.image = image;
                 this.resize()
-                // console.log("putting image on canvas")
-                // canvas.width = image.width / 2;
-                // canvas.height = image.height / 2;
-                // context.drawImage(image, 0, 0, image.width /2, image.height/2);
-                // canvas.style.objectFit = "contain";
             }
         }
     }
@@ -149,12 +142,6 @@ class Editor extends Component {
         let imageData = this.getImageData();
         let pixels = imageData.data;
 
-        // for (let i = 0; i<pixels.length; i+=4) {
-        //     let lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
-        //     pixels[i] = lightness;
-        //     pixels[i+1] = lightness;
-        //     pixels[i+2] = lightness;
-        // }
         for (let i = 0; i < pixels.length; i += 4) {
 
             let r = pixels[i],
@@ -166,40 +153,11 @@ class Editor extends Component {
         }
         context.putImageData(imageData, 0, 0);
         this.saveCurrentImageState();
-        // let img = document.createElement("img");
-        // img.src = canvas.toDataURL("image/jpeg", 0.95);
-        // img.onload = () => {
-        //     this.image = img;
-        // }
-        // let image = document.getElementById("display");
-        // image.style.filter = "grayscale(100%)";
 
         console.log("Applied greyscale");
     }
 
-    // applyGreyscale2() {
-    //     this.displayImg()
-    //     let canvas = document.getElementById("editableCanvas");
-    //     let context = canvas.getContext('2d');
-    //     let imageData = this.getImageData();
-    //     let pixels = imageData.data;
-
-    //     for (let i = 0; i < pixels.length; i += 4) {
-
-    //         let r = pixels[i],
-    //             g = pixels[i + 1],
-    //             b = pixels[i + 2];
-
-    //         let lightness = parseInt(0.2126*r + 0.7152*g + 0.0722*b);
-    //         pixels[i] =  pixels[i + 1] = pixels[i + 2] = lightness;
-    //     }
-    //     context.putImageData(imageData, 0, 0);
-
-    //     console.log("Applied greyscale 2");
-    // }
-
     applySepia = () => {
-        // this.loadImage()
         let canvas = document.getElementById("editableCanvas");
         let context = canvas.getContext('2d');
         let imageData = this.getImageData();
@@ -211,7 +169,7 @@ class Editor extends Component {
                 g = pixels[i + 1],
                 b = pixels[i + 2];
 
-                //using Microsoft's recommended values for Sepia
+            //using Microsoft's recommended values for Sepia
             let newRed = 0.393 * r + 0.769 * g + 0.189 * b;
             let newGreen = 0.349 * r + 0.686 * g + 0.168 * b;
             let newBlue = 0.272 * r + 0.534 * g + 0.131 * b;
@@ -221,45 +179,20 @@ class Editor extends Component {
         }
         context.putImageData(imageData, 0, 0);
         this.saveCurrentImageState();
-        // let image = document.getElementById("display");
-        // image.style.filter = "sepia(100%)";
 
         console.log("Applied sepia");
     }
 
     applyBlur = () => {
-        
         let canvas = document.getElementById("editableCanvas");
         let context = canvas.getContext('2d');
-        context.filter = 'blur(20px)';
-        // let imageData = this.getImageData();
-        // let newImageData = this.convoluteImage(imageData,
-        //   [ 1/9, 1/9, 1/9,
-        //     1/9, 1/9, 1/9,
-        //     1/9, 1/9, 1/9 ] 
-        // );
-        // console.log(newImageData)
-        // context.putImageData(newImageData, 0, 0);
-
-        // let pixels = imageData.data;
-
-        // for (let i = 0; i < pixels.length; i += 4) {
-
-        //     let r = pixels[i],
-        //         g = pixels[i + 1],
-        //         b = pixels[i + 2];
-
-        //     //using Microsoft's recommended values for Sepia
-        //     let newRed = 0.393 * r + 0.769 * g + 0.189 * b;
-        //     let newGreen = 0.349 * r + 0.686 * g + 0.168 * b;
-        //     let newBlue = 0.272 * r + 0.534 * g + 0.131 * b;
-        //     pixels[i] = newRed < 255 ? newRed : 255;
-        //     pixels[i + 1] = newGreen < 255 ? newGreen : 255;
-        //     pixels[i + 2] = newBlue < 255 ? newBlue : 255;
-        // }
-        // context.putImageData(imageData, 0, 0);
-        // let image = document.getElementById("display");
-        // image.style.filter = "blur(6px)";
+        let imageData = this.getImageData();
+        let newImageData = this.convoluteImage(imageData,
+          [ 1/9, 1/9, 1/9,
+            1/9, 1/9, 1/9,
+            1/9, 1/9, 1/9 ] 
+        );
+        context.putImageData(newImageData, 0, 0);
 
         console.log("Applied blur");
     }
@@ -279,11 +212,6 @@ class Editor extends Component {
         console.log("brightened image")
     }
 
-    resetImage = () => {
-        this.loadImage();
-        // let image = document.getElementById("display");
-        // image.style.filter = "none";
-    }
     darken = () => {
         let canvas = document.getElementById("editableCanvas");
         let context = canvas.getContext("2d");
@@ -296,44 +224,18 @@ class Editor extends Component {
         }
         context.putImageData(imageData, 0, 0);
         this.saveCurrentImageState();
-        console.log("brightened image")
+        console.log("darkened image")
     }
 
     resetImage = () => {
         this.loadImage();
-        // let image = document.getElementById("display");
-        // image.style.filter = "none";
     }
 
-    // editedSave() {
-    //     console.log("saving image...");
-    //     let canvas = document.getElementById("editableCanvas");
-    //     let image = canvas.toDataURL();
-    //     console.log({ image });
-    //     console.log("saved!");
-    //     let key = this.state.keyNum.toString();
-    //     localStorage.setItem(key, image);
-    //     //increment our key
-    //     this.setState((prevState) => ({
-    //         keyNum: prevState.keyNum + 1
-    //     }));
-    //     //let user know
-    //     alert("Photo saved successfully!")
-    // }
-
     downloadImage = () => {
-        // this works...
         let canvas = document.getElementById("editableCanvas");
         let data = canvas.toDataURL("image/jpg");
-        // if (!window.open(data)) {
-        //     document.location.href = data;
-        // }
-        // but let me try this...
-        // let data = canvas.toBlob((blob) => {
+        // download.js function to download file
         download(data, "editedImage.jpg", "image/jpg")
-        // }, 'image/jpeg', 0.95);
-        // save the context as a blob...
-        // download blob...
     }
 
     render() {
@@ -348,22 +250,16 @@ class Editor extends Component {
         <div id="editor" className="text-white">
             <h3 style={{fontSize: "2.75rem"}}>Edit your photo here!</h3>
             <canvas id="editableCanvas" style={{boxShadow: "10px 10px 10px rgba(55, 55, 55, 0.6)"}}></canvas>
-            {/* <img id="display" alt="your webcam output is here"></img> */}
             <br />
-            <div id="options">
-                <Button variant="outline-light" id="reset" onClick={this.resetImage}>Reset Image</Button>
-                <Button variant="outline-light" id="greyscale" onClick={this.applyGreyscale}>Greyscale</Button>
-                {/* <Button variant="outline-light" id="greyscale2" onClick={this.applyGreyscale2}>Greyscale 2</Button> */}
-                <Button variant="outline-light" id="sepia" onClick={this.applySepia}>Sepia</Button>
+            <div id="options" style={{textAlign: "center"}}>
+                <Button variant="outline-light" onClick={this.resetImage}>Reset Image</Button>
+                <Button variant="outline-light" onClick={this.applyGreyscale}>Greyscale</Button>
+                <Button variant="outline-light" onClick={this.applySepia}>Sepia</Button>
                 <Button variant="outline-light" onClick={this.applyBlur}>Blur</Button>
                 <Button variant="outline-light" onClick={this.brighten}>Brighten</Button>
                 <Button variant="outline-light" onClick={this.darken}>Darken</Button>
-                {/* instead have a download as */}
-                {/* <Button variant="outline-light" id="editedSave" onClick={this.editedSave}>Save</Button> */}
             </div>
-            {/* <Button variant="dark" size="sm" onClick={() => { this.setState({ redirect: "/gallery" })}}>Gallery</Button> */}
             <Button variant="dark" size="sm" onClick={this.downloadImage}>Download Image</Button>
-            {/* <a href="#display" download="newImage" alt="download the image">Download Image</a> */}
         </div>
         );
     }
