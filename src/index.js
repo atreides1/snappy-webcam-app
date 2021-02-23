@@ -17,9 +17,7 @@ const routing = (
     {/*Switch for error handling */}
     <Switch>
       <Route exact path="/" component={App}            />
-      <Route path="/menu" component={MainMenu}         />
       <Route path="/camera" component={Camera}         />
-      <Route path="/gallery" component={Gallery}       />
       <Route path="/editor" component={Editor}         />
       <Route component={NotFound}                      />
     </Switch>
