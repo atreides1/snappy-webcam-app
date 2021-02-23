@@ -1,6 +1,5 @@
 import { React, Component } from 'react';
 import { Redirect } from "react-router-dom";
-// import axios from 'axios';
 import { Button, Form } from 'react-bootstrap';
 
 class Camera extends Component {
@@ -19,8 +18,6 @@ class Camera extends Component {
             imageHeight: 0,
             redirect: null,
         };
-
-        this.canvas = null; //used for fabric.js
 
         this.xOffset = 0; //used for cropping
         this.yOffset = 0;
@@ -42,7 +39,6 @@ class Camera extends Component {
         let userID = this.props.location.search.substring(3)
         this.setState({ user: userID });
         this.loadStream();
-        //maybe add a resize listener
         window.addEventListener("resize", this.resize, false);
     }
 
@@ -90,7 +86,7 @@ class Camera extends Component {
                 })
             }
         }
-        console.log(window.innerWidth, window.innerHeight)
+        // console.log(window.innerWidth, window.innerHeight)
     }
 
     loadStream() {
@@ -209,28 +205,14 @@ class Camera extends Component {
             // save from src canvas to temp
             tempContext.drawImage(canvas, x, y, width, height, 0, 0, width, height);
 
-            // let name = Date.now().toString();
             let image = tempCanvas.toDataURL('image/jpeg', 0.8);
             localStorage.setItem("photo", image);
-            // let data = {
-            //     user: this.state.user,
-            //     name: name,
-            //     imageSrc: image,
-            //     canvas: null,
-            //     objProps: null
-            // }
-            // axios.post(process.env.REACT_APP_WEBSOCKET_SERVER + '/save', data)
-            //     .then(() => console.log("Image saved to database"))
-            //     .catch(err => {
-            //         console.error(err);
-            //     })
 
             this.stopStream(); //this removes video stream
             this.setState({ redirect: "/editor" })
 
         } else {
             console.log("no changes to crop handles")
-            // save data to server
             // make temp canvas the same size as image
             let tempCanvas = document.createElement("canvas");
             let tempContext = tempCanvas.getContext("2d")
@@ -238,22 +220,8 @@ class Camera extends Component {
             tempCanvas.height = this.state.imageHeight;
 
             tempContext.drawImage(canvas, this.state.imageX, this.state.imageY, this.state.imageWidth, this.state.imageHeight, 0, 0, this.state.imageWidth, this.state.imageHeight);
-            // ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-            // let name = Date.now().toString();
             let image = tempCanvas.toDataURL('image/jpeg', 0.8);
             localStorage.setItem("photo", image);
-            // let data = {
-            //     user: this.state.user,
-            //     name: name,
-            //     imageSrc: image,
-            //     canvas: null,
-            //     objProps: null
-            // }
-            // axios.post(process.env.REACT_APP_WEBSOCKET_SERVER + '/save', data)
-            //     .then(() => console.log("Image saved to database"))
-            //     .catch(err => {
-            //         console.error(err);
-            //     })
 
             this.stopStream(); //this removes video stream
             this.setState({ redirect: "/editor" })
