@@ -11,33 +11,6 @@
   justify-content: space-evenly;
 }
 
-/* #mainMenu {
-  background-color: #FC4135;
-  height: 100%;
-  width: 100%;
-  min-height: 100vh;
-  min-width: 100vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
-.menuButton {
-  padding: 80px;
-  font-size: 22px;
-  margin: 20px;
-  margin-right: 0px;
-  border: 2px solid rgba(0,0,20, 0.4);
-  cursor: pointer;
-  background-color: #f6fbff;
-  justify-content: space-between;
-} */
-
-.menuButton:hover {
-    border-color: black;
-    transition: border-color .2s ease-out;
-}
 
 #camera {
   background-color: #FC4135;
@@ -54,11 +27,9 @@
 }
 
 #canvas {
-  /* position: absolute; */
   display: none;
   width: 100%;
   height: 100vh;
-  /* object-fit: cover; */
 }
 
 #video {
@@ -95,33 +66,8 @@
   box-shadow: 0 0 100000px 100000px rgba(31, 31, 31, 0.562);
   cursor: pointer;
 }
-/* #canvas #video {
-  border: 3px solid black;
-} */
-
-/* #savePhoto {
-  visibility: hidden;
-} */
-/* 
-#gallery {
-  background-color: #E6663B;
-  height: 100%;
-  width: 100%;
-  min-height: 100vh;
-  min-width: 100vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#photos {
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
-} */
 
 #editor {
-  /* background-color: #FC4135; */
   background-color: #F2338A;
   height: 100%;
   width: 100%;
@@ -135,40 +81,15 @@
 
 #options {
   flex-direction: row;
+  text-align: center;
 }
-
-
-/* .galleryDisplay {
-  padding: 10px 0px 10px 0px;
-  width: 960px;
-  height: 540px;
-} */
-/* 
-button {
-    padding: 5px;
-    font-size: 14px;
-    margin: 10px;
-    margin-right: 0px;
-    border-width:2px;
-    border-style: solid;
-    font-family: 'Open Sans', sans-serif;
-    cursor: pointer;
-}
-
-button:hover {
-    border-color: rgba(0,0,20, 0.4);
-    transition: border-color .2s ease-out;
-} */
-
 
 h1 {
   font-family: 'Lobster Two', cursive;
-  /* font-size: 10rem; */
 }
 
 h3 {
   font-family: "Lobster Two", cursive;
-  /* font-size: 2rem; */
 }
 
 a, p {

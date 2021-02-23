@@ -57,8 +57,6 @@ class Editor extends Component {
         {
             console.log("finding previously taken images");
             let dataURL = localStorage.getItem("photo");
-            let canvas = document.getElementById("editableCanvas");
-            let context = canvas.getContext("2d");
             let image = document.createElement("img");
             image.src = dataURL;
             image.onload = () => {
@@ -84,7 +82,7 @@ class Editor extends Component {
         };
     }
 
-    
+    // convolution function is from: 
     // https://www.html5rocks.com/en/tutorials/canvas/imagefilters/
     convoluteImage = (imageData, weights, opaque=1) => {
         const createTempImageData = (w, h) => {
@@ -110,14 +108,14 @@ class Editor extends Component {
                 let sy = y;
                 let sx = x;
                 let dstOff = (y*w+x) * 4;
-                //calc weighted sum
-                let r=0, g=0,b=0, a=0;
+                //calculate weighted sum
+                let r=0, g=0, b=0, a=0;
                 for (let cy=0; cy<side; cy++) {
                     for (let cx=0; cx<side; cx++) {
                         let scy = sy + cy - halfSide;
                         let scx = sx + cx - halfSide;
                         if (scy >= 0 && scy < sh && scx >= 0 && scx < sw) {
-                            let srcOff = (scy*sw*scx)*4;
+                            let srcOff = (scy*sw+scx)*4;
                             let wt = weights[cy*side+cx];
                             r += src[srcOff] * wt;
                             g += src[srcOff+1] * wt;
@@ -127,16 +125,15 @@ class Editor extends Component {
                     }
                 }
                 dst[dstOff] = r;
-                dst[dstOff +1] = g;
+                dst[dstOff+1] = g;
                 dst[dstOff+2] = b;
-                dst[dstOff+3] = a + alpha *(255-a)
+                dst[dstOff+3] = a + alpha * (255-a)
             }
         }
         return output;
     }
 
     applyGreyscale = () => {
-        // this.loadImage()
         let canvas = document.getElementById("editableCanvas");
         let context = canvas.getContext('2d');
         let imageData = this.getImageData();
@@ -153,7 +150,6 @@ class Editor extends Component {
         }
         context.putImageData(imageData, 0, 0);
         this.saveCurrentImageState();
-
         console.log("Applied greyscale");
     }
 
@@ -179,7 +175,6 @@ class Editor extends Component {
         }
         context.putImageData(imageData, 0, 0);
         this.saveCurrentImageState();
-
         console.log("Applied sepia");
     }
 
@@ -193,8 +188,22 @@ class Editor extends Component {
             1/9, 1/9, 1/9 ] 
         );
         context.putImageData(newImageData, 0, 0);
-
+        this.saveCurrentImageState();
         console.log("Applied blur");
+    }
+
+    applySharpen = () => {
+        let canvas = document.getElementById("editableCanvas");
+        let context = canvas.getContext('2d');
+        let imageData = this.getImageData();
+        let newImageData = this.convoluteImage(imageData,
+            [ 0,-1, 0,
+             -1, 5, -1,
+              0,-1, 0 ]
+        );
+        context.putImageData(newImageData, 0, 0);
+        this.saveCurrentImageState();
+        console.log("Applied sharpen");
     }
 
     brighten = () => {
@@ -251,11 +260,12 @@ class Editor extends Component {
             <h3 style={{fontSize: "2.75rem"}}>Edit your photo here!</h3>
             <canvas id="editableCanvas" style={{boxShadow: "10px 10px 10px rgba(55, 55, 55, 0.6)"}}></canvas>
             <br />
-            <div id="options" style={{textAlign: "center"}}>
+            <div id="options">
                 <Button variant="outline-light" onClick={this.resetImage}>Reset Image</Button>
                 <Button variant="outline-light" onClick={this.applyGreyscale}>Greyscale</Button>
                 <Button variant="outline-light" onClick={this.applySepia}>Sepia</Button>
                 <Button variant="outline-light" onClick={this.applyBlur}>Blur</Button>
+                <Button variant="outline-light" onClick={this.applySharpen}>Sharpen</Button>
                 <Button variant="outline-light" onClick={this.brighten}>Brighten</Button>
                 <Button variant="outline-light" onClick={this.darken}>Darken</Button>
             </div>
