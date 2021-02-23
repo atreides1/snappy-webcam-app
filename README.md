@@ -1,5 +1,4 @@
 # Snappy Webcam App
 
-Take quick webcam snaps and edit with filters! (Made with React <3)
+Take quick webcam pics and edit in the browser! (Made with React 🥰)
 
-~only works on https ;)
