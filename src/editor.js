@@ -3,6 +3,7 @@ import { React, Component } from 'react';
 import { Redirect } from "react-router-dom";
 import { Button } from 'react-bootstrap';
 import download from "downloadjs";
+import context from 'react-bootstrap/esm/AccordionContext';
 class Editor extends Component {
     constructor(props) {
         super(props);
@@ -28,7 +29,7 @@ class Editor extends Component {
             let canvas = document.getElementById("editableCanvas");
             let context = canvas.getContext("2d");
 
-            canvas.width = window.innerWidth;
+            canvas.width = window.innerWidth - (window.innerWidth * 0.10);
             canvas.height = window.innerHeight;
             // resize content
             let image = this.image;
@@ -63,11 +64,12 @@ class Editor extends Component {
             let image = document.createElement("img");
             image.src = dataURL;
             image.onload = () => {
-                console.log("putting image on canvas")
-                canvas.width = image.width / 2;
-                canvas.height = image.height / 2;
-                context.drawImage(image, 0, 0, image.width /2, image.height/2);
                 this.image = image;
+                this.resize()
+                // console.log("putting image on canvas")
+                // canvas.width = image.width / 2;
+                // canvas.height = image.height / 2;
+                // context.drawImage(image, 0, 0, image.width /2, image.height/2);
                 // canvas.style.objectFit = "contain";
             }
         }
@@ -226,17 +228,19 @@ class Editor extends Component {
     }
 
     applyBlur = () => {
-        // this.loadImage();
+        
         let canvas = document.getElementById("editableCanvas");
         let context = canvas.getContext('2d');
-        let imageData = this.getImageData();
-        let newImageData = this.convoluteImage(imageData,
-          [ 1/9, 1/9, 1/9,
-            1/9, 1/9, 1/9,
-            1/9, 1/9, 1/9 ] 
-        );
-        console.log(newImageData)
-        context.putImageData(newImageData, 0, 0);
+        context.filter = 'blur(20px)';
+        // let imageData = this.getImageData();
+        // let newImageData = this.convoluteImage(imageData,
+        //   [ 1/9, 1/9, 1/9,
+        //     1/9, 1/9, 1/9,
+        //     1/9, 1/9, 1/9 ] 
+        // );
+        // console.log(newImageData)
+        // context.putImageData(newImageData, 0, 0);
+
         // let pixels = imageData.data;
 
         // for (let i = 0; i < pixels.length; i += 4) {
@@ -258,6 +262,41 @@ class Editor extends Component {
         // image.style.filter = "blur(6px)";
 
         console.log("Applied blur");
+    }
+
+    brighten = () => {
+        let canvas = document.getElementById("editableCanvas");
+        let context = canvas.getContext("2d");
+        let imageData = this.getImageData();
+        let pixels = imageData.data;
+        for (let i=0; i<pixels.length; i+=4) {
+            pixels[i] += 5;
+            pixels[i+1] += 5;
+            pixels[i+2] += 5;
+        }
+        context.putImageData(imageData, 0, 0);
+        this.saveCurrentImageState();
+        console.log("brightened image")
+    }
+
+    resetImage = () => {
+        this.loadImage();
+        // let image = document.getElementById("display");
+        // image.style.filter = "none";
+    }
+    darken = () => {
+        let canvas = document.getElementById("editableCanvas");
+        let context = canvas.getContext("2d");
+        let imageData = this.getImageData();
+        let pixels = imageData.data;
+        for (let i=0; i<pixels.length; i+=4) {
+            pixels[i] -= 5;
+            pixels[i+1] -= 5;
+            pixels[i+2] -= 5;
+        }
+        context.putImageData(imageData, 0, 0);
+        this.saveCurrentImageState();
+        console.log("brightened image")
     }
 
     resetImage = () => {
@@ -308,7 +347,7 @@ class Editor extends Component {
         return (
         <div id="editor" className="text-white">
             <h3 style={{fontSize: "2.75rem"}}>Edit your photo here!</h3>
-            <canvas id="editableCanvas"></canvas>
+            <canvas id="editableCanvas" style={{boxShadow: "10px 10px 10px rgba(55, 55, 55, 0.6)"}}></canvas>
             {/* <img id="display" alt="your webcam output is here"></img> */}
             <br />
             <div id="options">
@@ -317,6 +356,8 @@ class Editor extends Component {
                 {/* <Button variant="outline-light" id="greyscale2" onClick={this.applyGreyscale2}>Greyscale 2</Button> */}
                 <Button variant="outline-light" id="sepia" onClick={this.applySepia}>Sepia</Button>
                 <Button variant="outline-light" onClick={this.applyBlur}>Blur</Button>
+                <Button variant="outline-light" onClick={this.brighten}>Brighten</Button>
+                <Button variant="outline-light" onClick={this.darken}>Darken</Button>
                 {/* instead have a download as */}
                 {/* <Button variant="outline-light" id="editedSave" onClick={this.editedSave}>Save</Button> */}
             </div>
