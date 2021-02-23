@@ -4,9 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Route, Switch, BrowserRouter as Router} from 'react-router-dom';
-import MainMenu from './mainMenu';
 import Camera from './camera';
-import Gallery from './gallery';
 import Editor from './editor';
 import NotFound from './404';
 import 'bootstrap/dist/css/bootstrap.css'; // npm i react-bootstrap bootstrap
